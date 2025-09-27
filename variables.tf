@@ -111,9 +111,13 @@ variable "role_assignment" {
       target_identity      = "gha"
       role_definition_name = "Owner"
     }
-    ght_storage_blob_data_contributor = {
+    gha_storage_blob_data_contributor = {
       target_identity      = "gha"
       role_definition_name = "Storage Blob Data Contributor"
+    }
+    gha_key_vault_secrets_officer = {
+      target_identity      = "gha"
+      role_definition_name = "Key Vault Secrets Officer"
     }
   }
 }
