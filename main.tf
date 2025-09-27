@@ -94,7 +94,7 @@ resource "azurerm_user_assigned_identity" "this" {
 
 resource "azurerm_role_assignment" "this" {
   for_each             = var.role_assignment
-  scope                = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.rg.name}"
+  scope                = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
   role_definition_name = each.value.role_definition_name
   principal_id         = azurerm_user_assigned_identity.this[each.value.target_identity].principal_id
 }
