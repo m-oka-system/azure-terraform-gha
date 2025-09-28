@@ -36,3 +36,4 @@ terraform.rc
 # GitHub Actions
 .secrets
 act.yml
+*.pem

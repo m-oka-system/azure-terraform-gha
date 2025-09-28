@@ -38,7 +38,7 @@ variable "key_vault" {
     soft_delete_retention_days    = 7
     public_network_access_enabled = true
     network_acls = {
-      default_action             = "Deny"
+      default_action             = "Allow"
       bypass                     = "AzureServices"
       ip_rules                   = ["MyIP"]
       virtual_network_subnet_ids = []
