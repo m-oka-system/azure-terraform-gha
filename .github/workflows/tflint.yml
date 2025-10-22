@@ -6,12 +6,12 @@ on:
     branches:
       - main
     paths:
-      - "./**/*.tf"
+      - "**/*.tf"
   pull_request:
     branches:
       - main
     paths:
-      - "./**/*.tf"
+      - "**/*.tf"
 
 defaults:
   run:
