@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TFLINT_VERSION: ${{ vars.TFLINT_VERSION || 'v0.52.0' }}
+  TFLINT_VERSION: ${{ vars.TFLINT_VERSION || 'v0.59.1' }}
 
 jobs:
   tflint:
