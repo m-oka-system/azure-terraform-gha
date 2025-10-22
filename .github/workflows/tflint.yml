@@ -5,7 +5,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "./**/*.tf"
   pull_request:
+    branches:
+      - main
+    paths:
+      - "./**/*.tf"
 
 defaults:
   run:
