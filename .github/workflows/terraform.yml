@@ -6,25 +6,55 @@ on:
     branches:
       - main
     paths:
-      - "./**/*.tf"
-      - ".github/workflows/terraform.yml"
+      - "**/*.tf"
   pull_request:
     branches:
       - main
     paths:
-      - "./**/*.tf"
-      - ".github/workflows/terraform.yml"
+      - "**/*.tf"
 
 permissions:
   id-token: write
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 env:
   NODE_VERSION: ${{ vars.NODE_VERSION || '20.x' }}
   TF_VERSION: ${{ vars.TF_VERSION || '1.13.3' }}
+  TFLINT_VERSION: ${{ vars.TFLINT_VERSION || 'v0.59.1' }}
   TF_VAR_allowed_cidr: ${{ secrets.ALLOWED_CIDR }}
 
 jobs:
+  tflint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+    - uses: actions/checkout@v4
+      name: Checkout source code
+
+    - uses: terraform-linters/setup-tflint@v6
+      name: Setup TFLint
+      with:
+        tflint_version: ${{ env.TFLINT_VERSION }}
+        cache: true
+
+    - name: Show version
+      run: tflint --version
+
+    - name: Init TFLint
+      run: tflint --init
+
+    - name: Run TFLint
+      run: tflint -f compact
+
   terraform:
     runs-on: self-hosted
     environment:
