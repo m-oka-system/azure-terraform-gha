@@ -57,6 +57,7 @@ jobs:
 
   terraform:
     runs-on: self-hosted
+    needs: tflint
     environment:
       name: dev
     defaults:
