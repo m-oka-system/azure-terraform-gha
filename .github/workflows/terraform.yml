@@ -60,7 +60,6 @@ jobs:
   trivy:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    # needs: tflint
 
     steps:
     - uses: actions/checkout@v4
