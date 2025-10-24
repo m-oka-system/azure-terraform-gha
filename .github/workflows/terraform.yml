@@ -7,15 +7,18 @@ on:
       - main
     paths:
       - "**/*.tf"
+      - .github/workflows/*.y?ml
   pull_request:
     branches:
       - main
     paths:
       - "**/*.tf"
+      - .github/workflows/*.y?ml
 
 permissions:
   id-token: write
   contents: read
+  security-events: write
 
 defaults:
   run:
@@ -54,10 +57,35 @@ jobs:
     - name: Run TFLint
       run: tflint -f compact
 
+  trivy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+    - uses: actions/checkout@v4
+      name: Checkout source code
+
+    - name: Run Trivy config scan
+      uses: aquasecurity/trivy-action@0.28.0
+      with:
+        scan-type: 'config'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        exit-code: '1'
+        severity: 'CRITICAL,HIGH'
+        limit-severities-for-sarif: true
+
+    - name: Upload Trivy results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
   terraform:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: tflint
+    needs: [tflint, trivy]
     environment:
       name: dev
     defaults:
