@@ -2,16 +2,6 @@ name: TFLint
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "**/*.tf"
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "**/*.tf"
 
 defaults:
   run:
